@@ -25,7 +25,7 @@ class MeuGrafo(GrafoListaAdjacencia):
                 adjacente = False
                 for arestaAtual in arestas:
                     if arestas[arestaAtual].eh_ponta(vertice1) and arestas[arestaAtual].eh_ponta(
-                        vertice2): adjacente = True
+                            vertice2): adjacente = True
 
                 vertices1 = f"{vertice1}-{vertice2}"  # Adiciona sempre os vertices atuais pra comprarar e evitar erros
                 verticesInvertido = f"{vertice2}-{vertice1}"
@@ -67,8 +67,7 @@ class MeuGrafo(GrafoListaAdjacencia):
             for a in self.arestas:  # For responsável por passar por todas as listas de arestas
                 if self.arestas[a].v1.rotulo == V:  # Aresta["a1"].vJ.rotulo
                     grau += 1
-                if self.arestas[
-                    a].v2.rotulo == V:  # Aresta["a1"].vC (esse v1, v2 é o vertice 1 e o 2 da aresta, já que uma aresta não pode existir sem dois vértices)
+                if self.arestas[a].v2.rotulo == V:  # Aresta["a1"].vC (esse v1, v2 é o vertice 1 e o 2 da aresta, já que uma aresta não pode existir sem dois vértices)
                     grau += 1
         else:
             raise VerticeInvalidoError  # Se o vértice não pertencer ao grafo, retorne o erro
@@ -145,3 +144,31 @@ class MeuGrafo(GrafoListaAdjacencia):
             return True
 
         return False
+
+    def dfs(self, R):
+
+        arvoreDfs = MeuGrafo()
+        vertices = self.vertices
+        arestas = self.arestas
+        arvoreDfs.adiciona_vertice(R)
+        cont = 0
+
+        for j in range(len(vertices)):
+            if vertices[j].rotulo != arvoreDfs.vertices[0].rotulo:
+                arvoreDfs.adiciona_vertice(vertices[j].rotulo)
+            if cont <= 0:
+                arvoreDfs.adiciona_aresta(f"{j}", f"{R}", f"{vertices[j].rotulo}")
+            else:
+                for a in arestas:
+                    if arestas[a] != arvoreDfs.arestas[j]:
+                        arvoreDfs.adiciona_aresta(f"{j}", f"{R}", f"{vertices[j].rotulo}")
+
+        arvoreDfs.remove_aresta('0')
+
+
+        return arvoreDfs
+
+
+
+
+
