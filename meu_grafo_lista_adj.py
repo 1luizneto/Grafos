@@ -5,12 +5,12 @@ from bibgrafo.grafo_errors import *
 class MeuGrafo(GrafoListaAdjacencia):
 
     def vertices_nao_adjacentes(self):
-        '''
+        """
         Provê um conjunto de vértices não adjacentes no grafo.
         O conjunto terá o seguinte formato: {X-Z, X-W, ...}
         Onde X, Z e W são vértices no grafo que não tem uma aresta entre eles.
         :return: Um objeto do tipo set que contém os pares de vértices não adjacentes
-        '''
+        """
 
         verticesNaoAdjacentes = set()
         vertices = self.vertices
@@ -39,10 +39,10 @@ class MeuGrafo(GrafoListaAdjacencia):
         return verticesNaoAdjacentes
 
     def ha_laco(self):
-        '''
+        """
         Verifica se existe algum laço no grafo.
         :return: Um valor booleano que indica se existe algum laço.
-        '''
+        """
 
         arestas = self.arestas
 
@@ -55,12 +55,12 @@ class MeuGrafo(GrafoListaAdjacencia):
         return False
 
     def grau(self, V=''):
-        '''
+        """
         Provê o grau do vértice passado como parâmetro
         :param V: O rótulo do vértice a ser analisado
         :return: Um valor inteiro que indica o grau do vértice
         :raises: VerticeInvalidoError se o vértice não existe no grafo
-        '''
+        """
 
         if self.existe_rotulo_vertice(V):  # Primeiro verifica se o vértice pertence ao grafo
             grau = 0
@@ -75,10 +75,10 @@ class MeuGrafo(GrafoListaAdjacencia):
         return grau
 
     def ha_paralelas(self):
-        '''
+        """
         Verifica se há arestas paralelas no grafo
         :return: Um valor booleano que indica se existem arestas paralelas no grafo.
-        '''
+        """
 
         count = 0
         for a in self.arestas:
@@ -107,12 +107,12 @@ class MeuGrafo(GrafoListaAdjacencia):
         return False
 
     def arestas_sobre_vertice(self, V):
-        '''
+        """
         Provê uma lista que contém os rótulos das arestas que incidem sobre o vértice passado como parâmetro
         :param V: Um string com o rótulo do vértice a ser analisado
-        :return: Uma l  ista os rótulos das arestas que incidem sobre o vértice
+        :return: Uma lista os rótulos das arestas que incidem sobre o vértice
         :raises: VerticeInvalidoException se o vértice não existe no grafo
-        '''
+        """
 
         listaA = set()
 
@@ -126,10 +126,10 @@ class MeuGrafo(GrafoListaAdjacencia):
             raise VerticeInvalidoError
 
     def eh_completo(self):
-        '''
+        """
         Verifica se o grafo é completo.
         :return: Um valor booleano que indica se o grafo é completo
-        '''
+        """
 
         qV = self.vertices
         qV = len(qV)
@@ -145,30 +145,50 @@ class MeuGrafo(GrafoListaAdjacencia):
 
         return False
 
-    def dfs(self, R):
+    def dfs(self):
+        # Cria um novo grafo para guardar a árvore DFS e pega a raiz como o primeiro vértice do grafo escolhido
+        arvoreDFS = MeuGrafo()
+        raiz = self.vertices[0].rotulo
+        arvoreDFS.adiciona_vertice(raiz)
 
-        arvoreDfs = MeuGrafo()
-        vertices = self.vertices
-        arestas = self.arestas
-        arvoreDfs.adiciona_vertice(R)
-        cont = 0
+        # Inicializa um conjunto de vértices visitados
+        visitados = set()
 
-        for j in range(len(vertices)):
-            if vertices[j].rotulo != arvoreDfs.vertices[0].rotulo:
-                arvoreDfs.adiciona_vertice(vertices[j].rotulo)
-            if cont <= 0:
-                arvoreDfs.adiciona_aresta(f"{j}", f"{R}", f"{vertices[j].rotulo}")
-            else:
-                for a in arestas:
-                    if arestas[a] != arvoreDfs.arestas[j]:
-                        arvoreDfs.adiciona_aresta(f"{j}", f"{R}", f"{vertices[j].rotulo}")
+        # Chama o método de busca pra preencher a árvore DFS
+        self.dfsBusca(raiz, arvoreDFS, visitados)
 
-        arvoreDfs.remove_aresta('0')
+        # Retorna a árvore DFS "final"
+        return arvoreDFS
 
+    # Método de busca recursivo
+    def dfsBusca(self, Pai, arvoreDFS, visitados):
+        # Adiciona o vértice pai ao conjunto de vértices visitados
+        visitados.add(Pai)
 
-        return arvoreDfs
+        # Obtém todas as arestas que saem do vértice pai e guarda numa variavel
+        arestasdoPai = self.arestas_sobre_vertice(Pai)
+        rotulosPai = list(arestasdoPai)
+        rotulosPai.sort()
 
+        # Iteração sobre todas as arestas
+        for aresta in rotulosPai:
+            # Verifica se o vértice ligado à aresta ainda não foi visitado e se ainda não foi adicionado à árvore DFS
+            if not arvoreDFS.existe_rotulo_vertice(aresta):
 
+                # Descobre qual vértice é o filho do vértice pai
+                if Pai == self.arestas[aresta].v1.rotulo:
+                    Filho = self.arestas[aresta].v2.rotulo
+                else:
+                    Filho = self.arestas[aresta].v1.rotulo
+                    
+                # Verifica se o filho ainda não foi visitado
+                if Filho not in visitados:
+                    # Adiciona o filho à árvore DFS e cria uma nova aresta
+                    arvoreDFS.adiciona_vertice(Filho)
+                    arvoreDFS.adiciona_aresta(self.arestas[aresta])
+                    
+                    # Chama a função dnv para preencher o subgrafo DFS do filho
+                    self.dfsBusca(Filho, arvoreDFS, visitados)
 
-
-
+        # Retorna a árvore DFS
+        return arvoreDFS
