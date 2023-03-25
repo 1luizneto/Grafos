@@ -180,15 +180,64 @@ class MeuGrafo(GrafoListaAdjacencia):
                     Filho = self.arestas[aresta].v2.rotulo
                 else:
                     Filho = self.arestas[aresta].v1.rotulo
-                    
+
                 # Verifica se o filho ainda não foi visitado
                 if Filho not in visitados:
                     # Adiciona o filho à árvore DFS e cria uma nova aresta
                     arvoreDFS.adiciona_vertice(Filho)
                     arvoreDFS.adiciona_aresta(self.arestas[aresta])
-                    
+
                     # Chama a função dnv para preencher o subgrafo DFS do filho
                     self.dfsBusca(Filho, arvoreDFS, visitados)
 
         # Retorna a árvore DFS
         return arvoreDFS
+
+    def vertice_inverso(self, aresta, V=''):
+        """
+        Retorna o rótulo do vértice oposto ao vértice V na aresta passada como parâmetro.
+        Se V for igual a um dos vértices da aresta, o rótulo do outro vértice é retornado.
+        Se V não for igual a nenhum dos vértices da aresta, uma exceção VerticeInvalidoError é levantada.
+        """
+        if aresta.v1.rotulo == V:  # se o vértice V for igual ao rótulo do vértice v1 da aresta
+            return aresta.v2.rotulo  # retorna o rótulo do vértice v2 da aresta
+        elif aresta.v2.rotulo == V:  # se o vértice V for igual ao rótulo do vértice v2 da aresta
+            return aresta.v1.rotulo  # retorna o rótulo do vértice v1 da aresta
+        else:  # se V não for igual a nenhum dos vértices da aresta
+            raise VerticeInvalidoError  # da erro
+    def bfs(self):
+        # define a raiz como o primeiro vértice do grafo
+        raiz = self.vertices[0].rotulo
+
+        # verifica se a raiz existe no grafo
+        if not self.existe_rotulo_vertice(raiz):
+            raise VerticeInvalidoError
+
+        # cria uma nova árvore BFS e adiciona a raiz como o primeiro vértice
+        arvoreBFS = MeuGrafo()
+        arvoreBFS.adiciona_vertice(raiz)
+
+        # inicia a busca em largura
+        verticesQueFaltam = [raiz]
+        visitados = [raiz]
+
+        while verticesQueFaltam:
+            # remove o próximo vértice da "fila" (fila representa a váriavel "verticesQueFaltam")
+            v_atual = verticesQueFaltam.pop(0)
+
+            # obtém as arestas incidentes ao vértice atual e as ordena
+            arestas_incidentes = list(self.arestas_sobre_vertice(v_atual))
+            arestas_incidentes.sort()
+
+            # para cada aresta incidente, verifica se o vértice oposto já foi visitado
+            for aresta in arestas_incidentes:
+                oposto = self.vertice_inverso(self.arestas[aresta], v_atual)
+                if oposto not in visitados:
+                    # adiciona o vértice oposto na árvore BFS e adiciona a aresta à árvore
+                    arvoreBFS.adiciona_vertice(oposto)
+                    arvoreBFS.adiciona_aresta(self.arestas[aresta])
+                    # marca o vértice como visitado e adiciona na "fila" para continuar a busca
+                    visitados.append(oposto)
+                    verticesQueFaltam.append(oposto)
+
+        return arvoreBFS
