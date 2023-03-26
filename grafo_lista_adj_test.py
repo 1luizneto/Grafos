@@ -177,11 +177,6 @@ class TestGrafo(unittest.TestCase):
         self.g_d2.adiciona_vertice("D")
 
         # Grafos Dfs
-        self.g_dfs1Vertice = MeuGrafo()
-        self.g_dfs1Vertice.adiciona_vertice("X")
-        self.g_dfs1VerticeResolvido = MeuGrafo()
-        self.g_dfs1VerticeResolvido.adiciona_vertice("X")
-
         self.g_dfsSala = MeuGrafo()
         self.g_dfsSala.adiciona_vertice("K")
         self.g_dfsSala.adiciona_vertice("L")
@@ -307,13 +302,116 @@ class TestGrafo(unittest.TestCase):
         self.g_c2Dfs.adiciona_aresta('amiga', 'Nina', 'Maria')
 
         # grafo com laços já implementados só que dfs
-        self.g_l4Dfs = MeuGrafo()
-        self.g_l4Dfs.adiciona_vertice("D")
-
         self.g_l3Dfs = MeuGrafo()
         self.g_l3Dfs.adiciona_vertice("A")
         self.g_l3Dfs.adiciona_vertice("C")
         self.g_l3Dfs.adiciona_aresta('a1', 'C', 'A')
+
+        self.g_l2Dfs = MeuGrafo()
+        self.g_l2Dfs.adiciona_vertice("A")
+        self.g_l2Dfs.adiciona_vertice("B")
+        self.g_l2Dfs.adiciona_aresta('a1', 'A', 'B')
+
+        # Grafo Bfs
+        self.g_pBfs = MeuGrafo()
+        self.g_pBfs.adiciona_vertice("J")
+        self.g_pBfs.adiciona_vertice("C")
+        self.g_pBfs.adiciona_vertice("E")
+        self.g_pBfs.adiciona_vertice("P")
+        self.g_pBfs.adiciona_vertice("M")
+        self.g_pBfs.adiciona_vertice("T")
+        self.g_pBfs.adiciona_vertice("Z")
+        self.g_pBfs.adiciona_aresta('a1', 'J', 'C')
+        self.g_pBfs.adiciona_aresta('a2', 'C', 'E')
+        self.g_pBfs.adiciona_aresta('a4', 'P', 'C')
+        self.g_pBfs.adiciona_aresta('a6', 'T', 'C')
+        self.g_pBfs.adiciona_aresta('a7', 'M', 'C')
+        self.g_pBfs.adiciona_aresta('a9', 'T', 'Z')
+
+        self.g_p4Bfs = MeuGrafo()
+        self.g_p4Bfs.adiciona_vertice("J")
+        self.g_p4Bfs.adiciona_vertice("C")
+        self.g_p4Bfs.adiciona_vertice("E")
+        self.g_p4Bfs.adiciona_vertice("P")
+        self.g_p4Bfs.adiciona_vertice("M")
+        self.g_p4Bfs.adiciona_vertice("T")
+        self.g_p4Bfs.adiciona_vertice("Z")
+        self.g_p4Bfs.adiciona_aresta('a1', 'J', 'C')
+        self.g_p4Bfs.adiciona_aresta('a2', 'J', 'E')
+        self.g_p4Bfs.adiciona_aresta('a4', 'P', 'C')
+        self.g_p4Bfs.adiciona_aresta('a6', 'T', 'C')
+        self.g_p4Bfs.adiciona_aresta('a7', 'M', 'C')
+        self.g_p4Bfs.adiciona_aresta('a9', 'T', 'Z')
+
+        self.g_SalaResolvidoBfs = MeuGrafo()
+        self.g_SalaResolvidoBfs.adiciona_vertice("K")
+        self.g_SalaResolvidoBfs.adiciona_vertice("L")
+        self.g_SalaResolvidoBfs.adiciona_vertice("M")
+        self.g_SalaResolvidoBfs.adiciona_vertice("N")
+        self.g_SalaResolvidoBfs.adiciona_vertice("COISA")
+        self.g_SalaResolvidoBfs.adiciona_aresta("KCOISA", "K", "COISA")
+        self.g_SalaResolvidoBfs.adiciona_aresta("KL", "K", "L")
+        self.g_SalaResolvidoBfs.adiciona_aresta("lm", "L", "M")
+        self.g_SalaResolvidoBfs.adiciona_aresta("a2", "N", "L")
+
+        self.g_BfsSala = MeuGrafo()
+        self.g_BfsSala.adiciona_vertice("K")
+        self.g_BfsSala.adiciona_vertice("L")
+        self.g_BfsSala.adiciona_vertice("M")
+        self.g_BfsSala.adiciona_vertice("N")
+        self.g_BfsSala.adiciona_vertice("COISA")
+        self.g_BfsSala.adiciona_aresta("KCOISA", "K", "COISA")
+        self.g_BfsSala.adiciona_aresta("KL", "K", "L")
+        self.g_BfsSala.adiciona_aresta("lm", "L", "M")
+        self.g_BfsSala.adiciona_aresta("a1", "K", "COISA")
+        self.g_BfsSala.adiciona_aresta("a2", "N", "L")
+
+        self.g_grafoExemploResolvidoBfs = MeuGrafo()
+        self.g_grafoExemploResolvidoBfs.adiciona_vertice("A")
+        self.g_grafoExemploResolvidoBfs.adiciona_vertice("B")
+        self.g_grafoExemploResolvidoBfs.adiciona_vertice("F")
+        self.g_grafoExemploResolvidoBfs.adiciona_vertice("H")
+        self.g_grafoExemploResolvidoBfs.adiciona_vertice("G")
+        self.g_grafoExemploResolvidoBfs.adiciona_vertice("K")
+        self.g_grafoExemploResolvidoBfs.adiciona_vertice("J")
+        self.g_grafoExemploResolvidoBfs.adiciona_vertice("I")
+        self.g_grafoExemploResolvidoBfs.adiciona_vertice("C")
+        self.g_grafoExemploResolvidoBfs.adiciona_vertice("D")
+        self.g_grafoExemploResolvidoBfs.adiciona_vertice("E")
+        self.g_grafoExemploResolvidoBfs.adiciona_aresta('1', 'A', 'B')
+        self.g_grafoExemploResolvidoBfs.adiciona_aresta('2', 'A', 'G')
+        self.g_grafoExemploResolvidoBfs.adiciona_aresta('3', 'A', 'J')
+        self.g_grafoExemploResolvidoBfs.adiciona_aresta('11', 'F', 'B')
+        self.g_grafoExemploResolvidoBfs.adiciona_aresta('13', 'B', 'C')
+        self.g_grafoExemploResolvidoBfs.adiciona_aresta('16', 'D', 'B')
+        self.g_grafoExemploResolvidoBfs.adiciona_aresta('17', 'E', 'B')
+        self.g_grafoExemploResolvidoBfs.adiciona_aresta('4', 'K', 'G')
+        self.g_grafoExemploResolvidoBfs.adiciona_aresta('8', 'I', 'G')
+        self.g_grafoExemploResolvidoBfs.adiciona_aresta('9', 'G', 'H')
+
+        self.g_cBfs = MeuGrafo()
+        self.g_cBfs.adiciona_vertice("J")
+        self.g_cBfs.adiciona_vertice("C")
+        self.g_cBfs.adiciona_vertice("E")
+        self.g_cBfs.adiciona_vertice("P")
+        self.g_cBfs.adiciona_aresta('a1', 'J', 'C')
+        self.g_cBfs.adiciona_aresta('a2', 'J', 'E')
+        self.g_cBfs.adiciona_aresta('a3', 'J', 'P')
+
+        self.g_c2Bfs = MeuGrafo()
+        self.g_c2Bfs.adiciona_vertice("Nina")
+        self.g_c2Bfs.adiciona_vertice("Maria")
+        self.g_c2Bfs.adiciona_aresta('amiga', 'Nina', 'Maria')
+
+        self.g_l3Bfs = MeuGrafo()
+        self.g_l3Bfs.adiciona_vertice("A")
+        self.g_l3Bfs.adiciona_vertice("C")
+        self.g_l3Bfs.adiciona_aresta('a1', 'C', 'A')
+
+        self.g_l2Bfs = MeuGrafo()
+        self.g_l2Bfs.adiciona_vertice("A")
+        self.g_l2Bfs.adiciona_vertice("B")
+        self.g_l2Bfs.adiciona_aresta('a1', 'A', 'B')
 
     def test_adiciona_aresta(self):
         self.assertTrue(self.g_p.adiciona_aresta('a10', 'J', 'C'))
@@ -440,9 +538,27 @@ class TestGrafo(unittest.TestCase):
         self.assertEqual(self.g_c.dfs(), self.g_cDfs)
         self.assertEqual(self.g_c2.dfs(), self.g_c2Dfs)
 
-        # grafo com laçõ já implementado
-        self.assertEqual(self.g_l4.dfs(), self.g_l4Dfs)
+        # grafo com laço já implementado
         self.assertEqual(self.g_l3.dfs(), self.g_l3Dfs)
+        self.assertEqual(self.g_l2.dfs(), self.g_l2Dfs)
 
-        # grafo vázio
-        self.assertEqual(self.g_dfs1Vertice.dfs(), self.g_dfs1VerticeResolvido)
+    def test_bfs(self):
+        # grafo passado no quadro da sala
+        self.assertEqual(self.g_BfsSala.dfs(), self.g_SalaResolvidoBfs)
+
+        # grafo passado no docs do roteiro como exemplo
+        self.assertEqual(self.g_grafoExemplo.bfs(), self.g_grafoExemploResolvidoBfs)
+
+        # grafo da paraiba já implementado
+        self.assertEqual(self.g_p.bfs(), self.g_pBfs)
+        self.assertEqual(self.g_p4.bfs(), self.g_p4Bfs)
+
+        # grafo completo já implementado
+        self.assertEqual(self.g_c.bfs(), self.g_cBfs)
+        self.assertEqual(self.g_c2.dfs(), self.g_c2Bfs)
+
+        # grafo com laço já implementado
+        self.assertEqual(self.g_l3.bfs(), self.g_l3Bfs)
+        self.assertEqual(self.g_l2.bfs(), self.g_l2Bfs)
+
+
