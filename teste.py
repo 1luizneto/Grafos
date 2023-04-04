@@ -1,30 +1,169 @@
 from bibgrafo.grafo_lista_adjacencia import GrafoListaAdjacencia
 from meu_grafo_lista_adj import *
+from bibgrafo.grafo_errors import *
+from meu_grafo_matriz_adj_nao_dir import MeuGrafo
 
-paraiba = MeuGrafo()
-
-paraiba.adiciona_vertice("J")
-paraiba.adiciona_vertice("C")
-paraiba.adiciona_vertice("E")
-paraiba.adiciona_vertice("P")
-paraiba.adiciona_vertice("M")
-paraiba.adiciona_vertice("T")
-paraiba.adiciona_vertice("Z")
-
-paraiba.adiciona_aresta("a1", "J", "C")
-paraiba.adiciona_aresta("a2", "C", "E")
-paraiba.adiciona_aresta("a3", "C", "E")
-paraiba.adiciona_aresta("a4", "C", "P")
-paraiba.adiciona_aresta("a5", "C", "P")
-paraiba.adiciona_aresta("a6", "C", "M")
-paraiba.adiciona_aresta("a7", "C", "T")
-paraiba.adiciona_aresta("a8", "M", "T")
-paraiba.adiciona_aresta("a9", "T", "Z")
-
-
-
-
-print(paraiba.dfs('J'))
+'''g_p = MeuGrafo()
+g_p.adiciona_vertice("J")
+g_p.adiciona_vertice("C")
+g_p.adiciona_vertice("E")
+g_p.adiciona_vertice("P")
+g_p.adiciona_vertice("M")
+g_p.adiciona_vertice("T")
+g_p.adiciona_vertice("Z")
+g_p.adiciona_aresta('a1', 'J', 'C')
+g_p.adiciona_aresta('a2', 'C', 'E')
+g_p.adiciona_aresta('a3', 'C', 'E')
+g_p.adiciona_aresta('a4', 'P', 'C')
+g_p.adiciona_aresta('a5', 'P', 'C')
+g_p.adiciona_aresta('a6', 'T', 'C')
+g_p.adiciona_aresta('a7', 'M', 'C')
+g_p.adiciona_aresta('a8', 'M', 'T')
+g_p.adiciona_aresta('a9', 'T', 'Z')
 
 
 
+g_dfsSala = MeuGrafo()
+g_dfsSala.adiciona_vertice("K")
+g_dfsSala.adiciona_vertice("L")
+g_dfsSala.adiciona_vertice("M")
+g_dfsSala.adiciona_vertice("N")
+g_dfsSala.adiciona_vertice("COISA")
+g_dfsSala.adiciona_aresta("KCOISA", "K", "COISA")
+g_dfsSala.adiciona_aresta("KL", "K", "L")
+g_dfsSala.adiciona_aresta("lm", "L", "M")
+g_dfsSala.adiciona_aresta("a1", "K", "COISA")
+g_dfsSala.adiciona_aresta("a2", "N", "L")
+
+grafoExemplo = MeuGrafo()
+
+grafoExemplo.adiciona_vertice("A")
+grafoExemplo.adiciona_vertice("B")
+grafoExemplo.adiciona_vertice("C")
+grafoExemplo.adiciona_vertice("D")
+grafoExemplo.adiciona_vertice("E")
+grafoExemplo.adiciona_vertice("F")
+grafoExemplo.adiciona_vertice("G")
+grafoExemplo.adiciona_vertice("H")
+grafoExemplo.adiciona_vertice("I")
+grafoExemplo.adiciona_vertice("J")
+grafoExemplo.adiciona_vertice("K")
+grafoExemplo.adiciona_aresta('1', 'A', 'B')
+grafoExemplo.adiciona_aresta('2', 'A', 'G')
+grafoExemplo.adiciona_aresta('3', 'A', 'J')
+grafoExemplo.adiciona_aresta('4', 'K', 'G')
+grafoExemplo.adiciona_aresta('5', 'K', 'J')
+grafoExemplo.adiciona_aresta('6', 'J', 'G')
+grafoExemplo.adiciona_aresta('7', 'J', 'I')
+grafoExemplo.adiciona_aresta('8', 'I', 'G')
+grafoExemplo.adiciona_aresta('9', 'G', 'H')
+grafoExemplo.adiciona_aresta('10', 'H', 'F')
+grafoExemplo.adiciona_aresta('11', 'F', 'B')
+grafoExemplo.adiciona_aresta('12', 'B', 'G')
+grafoExemplo.adiciona_aresta('13', 'B', 'C')
+grafoExemplo.adiciona_aresta('14', 'C', 'D')
+grafoExemplo.adiciona_aresta('15', 'D', 'E')
+grafoExemplo.adiciona_aresta('16', 'D', 'B')
+grafoExemplo.adiciona_aresta('17', 'E', 'B')
+
+if g_dfsSala.dfs() == g_dfsSalaResolvido:
+    igual = True
+else:
+    igual = False 
+
+#print(igual)
+
+g_p4 = MeuGrafo()
+g_p4.adiciona_vertice("J")
+g_p4.adiciona_vertice("C")
+g_p4.adiciona_vertice("E")
+g_p4.adiciona_vertice("P")
+g_p4.adiciona_vertice("M")
+g_p4.adiciona_vertice("T")
+g_p4.adiciona_vertice("Z")
+g_p4.adiciona_aresta('a1', 'J', 'C')
+g_p4.adiciona_aresta('a2', 'J', 'E')
+g_p4.adiciona_aresta('a3', 'C', 'E')
+g_p4.adiciona_aresta('a4', 'P', 'C')
+g_p4.adiciona_aresta('a5', 'P', 'C')
+g_p4.adiciona_aresta('a6', 'T', 'C')
+g_p4.adiciona_aresta('a7', 'M', 'C')
+g_p4.adiciona_aresta('a8', 'M', 'T')
+g_p4.adiciona_aresta('a9', 'T', 'Z')
+
+g_c = MeuGrafo()
+g_c.adiciona_vertice("J")
+g_c.adiciona_vertice("C")
+g_c.adiciona_vertice("E")
+g_c.adiciona_vertice("P")
+g_c.adiciona_aresta('a1', 'J', 'C')
+g_c.adiciona_aresta('a2', 'J', 'E')
+g_c.adiciona_aresta('a3', 'J', 'P')
+g_c.adiciona_aresta('a4', 'E', 'C')
+g_c.adiciona_aresta('a5', 'P', 'C')
+g_c.adiciona_aresta('a6', 'P', 'E')
+
+g_c2 = MeuGrafo()
+g_c2.adiciona_vertice("Nina")
+g_c2.adiciona_vertice("Maria")
+g_c2.adiciona_aresta('amiga', 'Nina', 'Maria')
+
+g_l3 = MeuGrafo()
+g_l3.adiciona_vertice("A")
+g_l3.adiciona_vertice("B")
+g_l3.adiciona_vertice("C")
+g_l3.adiciona_vertice("D")
+g_l3.adiciona_aresta('a1', 'C', 'A')
+g_l3.adiciona_aresta('a2', 'C', 'C')
+g_l3.adiciona_aresta('a3', 'D', 'D')
+g_l3.adiciona_aresta('a4', 'D', 'D')
+
+g_l2 = MeuGrafo()
+g_l2.adiciona_vertice("A")
+g_l2.adiciona_vertice("B")
+g_l2.adiciona_vertice("C")
+g_l2.adiciona_vertice("D")
+g_l2.adiciona_aresta('a1', 'A', 'B')
+g_l2.adiciona_aresta('a2', 'B', 'B')
+g_l2.adiciona_aresta('a3', 'B', 'A')
+
+#print(g_l2.dfs())
+
+print(g_p.bfs("J"))'''
+
+g_p = MeuGrafo()
+g_p.adiciona_vertice("J")
+g_p.adiciona_vertice("C")
+g_p.adiciona_vertice("E")
+g_p.adiciona_vertice("P")
+g_p.adiciona_vertice("M")
+g_p.adiciona_vertice("T")
+g_p.adiciona_vertice("Z")
+g_p.adiciona_aresta('a1', 'J', 'C')
+g_p.adiciona_aresta('a2', 'C', 'E')
+g_p.adiciona_aresta('a3', 'C', 'E')
+g_p.adiciona_aresta('a4', 'P', 'C')
+g_p.adiciona_aresta('a5', 'P', 'C')
+g_p.adiciona_aresta('a6', 'T', 'C')
+g_p.adiciona_aresta('a7', 'M', 'C')
+g_p.adiciona_aresta('a8', 'M', 'T')
+g_p.adiciona_aresta('a9', 'T', 'Z')
+
+
+g_l1 = MeuGrafo()
+g_l1.adiciona_vertice("A")
+g_l1.adiciona_vertice("B")
+g_l1.adiciona_vertice("C")
+g_l1.adiciona_vertice("D")
+g_l1.adiciona_aresta('a1', 'A', 'B')
+g_l1.adiciona_aresta('a2', 'B', 'B')
+g_l1.adiciona_aresta('a3', 'B', 'A')
+
+print(g_l1)
+
+print(g_l1.grau("B"))
+
+#print(g_p.matriz[i_v][2])
+
+#grau = g_p.arestas_sobre_vertice(v.rotulo)
+#print(len(grau))
