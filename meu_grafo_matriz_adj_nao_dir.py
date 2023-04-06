@@ -10,7 +10,21 @@ class MeuGrafo(GrafoMatrizAdjacenciaNaoDirecionado):
         Onde X, Z e W são vértices no grafo que não tem uma aresta entre eles.
         :return: Uma lista com os pares de vértices não adjacentes
         '''
-        pass
+
+        verticesNaoAdjacentes = set()
+        # Se é completo não tem vertices não adjacentes
+        if self.eh_completo():
+            return verticesNaoAdjacentes
+        else:
+            # Percorre todas as linhas da matriz
+            for i in range(len(self.vertices)):
+                # Percorre todas as colunas da matriz + 1, que é para verificar só a metade da matriz
+                # Facilitando meu trabalho de programar mais ifs, e de trabalho pra máquina :D
+                for j in range(i+1, len(self.vertices)):
+                    # Se o dicionário for vazio, não tem arestas nele ou seja = vertices não adjacentes
+                    if len(self.matriz[i][j]) == 0:
+                        verticesNaoAdjacentes.add(f"{self.vertices[i].rotulo}-{self.vertices[j].rotulo}")
+        return verticesNaoAdjacentes
 
     def ha_laco(self):
         '''
@@ -18,7 +32,9 @@ class MeuGrafo(GrafoMatrizAdjacenciaNaoDirecionado):
         :return: Um valor booleano que indica se existe algum laço.
         '''
 
+        # Passa por todas as linhas da matriz
         for i in range(len(self.vertices)):
+            # Passa pela diagonal da matriz para descobrir se tem laço
             if len(self.matriz[i][i]) > 0:
                 return True
         return False
@@ -30,13 +46,17 @@ class MeuGrafo(GrafoMatrizAdjacenciaNaoDirecionado):
         :return: Um valor inteiro que indica o grau do vértice
         :raises: VerticeInvalidoException se o vértice não existe no grafo
         '''
+        # Verifica se o vertice passado Existe
         if self.existe_rotulo_vertice(V):
             grau = 0
+            # Passa pelas linhas da matriz
             for i in range(len(self.vertices)):
-                if self.matriz[i][i] != 0 and self.vertices[i] == V:
-                    grau += self.matriz[i][i]
-                elif self.matriz[i][self.vertices.index(V)] != 0:
-                    grau += self.matriz[i][self.vertices.index(V)]
+                # Verifica se tem laço na matriz
+                if self.matriz[i][i] != 0 and self.vertices[i].rotulo == V:
+                    grau += 2 * len(self.matriz[i][i])
+                # Conta tbm todos as arestas conectadas nos vertices, para calcular o grau
+                elif len(self.matriz[i][self.vertices.index(self.get_vertice(V))]) != 0:
+                    grau += len(self.matriz[i][self.vertices.index(self.get_vertice(V))])
             return grau
         else:
             raise VerticeInvalidoError(f"Vértice {V} não existe no grafo.")
@@ -45,8 +65,11 @@ class MeuGrafo(GrafoMatrizAdjacenciaNaoDirecionado):
         Verifica se há arestas paralelas no grafo
         :return: Um valor booleano que indica se existem arestas paralelas no grafo.
         '''
+        # Passa pelas linahs da matriz
         for i in range(len(self.vertices)):
+            # Passa pelas colunas da matriz
             for j in range(len(self.vertices)):
+                # Se o dicionario da celula da matriz for maior que um, é porque tem paralelas
                 if len(self.matriz[i][j]) > 1:
                     return True
         return False
@@ -74,4 +97,19 @@ class MeuGrafo(GrafoMatrizAdjacenciaNaoDirecionado):
         Verifica se o grafo é completo.
         :return: Um valor booleano que indica se o grafo é completo
         '''
-        pass
+        # Se tem laço já não é completo
+        if self.ha_laco():
+            return False
+        else:
+            totalVertices = len(self.vertices)
+            verdade = 0
+            # Passa por todas as linhas da matriz
+            for i in range(len(self.vertices)):
+                # Se o grau do vertice for igual ao N° de vertices totais - 1, então adciona uma condição verdadeira
+                if self.grau(self.vertices[i].rotulo) == (totalVertices-1):
+                    verdade += 1
+                else:
+                    return False
+            # Se a condição verdade for igual ao total de vertices, é porque o grau é completo
+            if verdade == totalVertices:
+                return True

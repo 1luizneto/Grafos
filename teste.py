@@ -159,11 +159,6 @@ g_l1.adiciona_aresta('a1', 'A', 'B')
 g_l1.adiciona_aresta('a2', 'B', 'B')
 g_l1.adiciona_aresta('a3', 'B', 'A')
 
-print(g_l1)
+print(g_p)
 
-print(g_l1.grau("B"))
-
-#print(g_p.matriz[i_v][2])
-
-#grau = g_p.arestas_sobre_vertice(v.rotulo)
-#print(len(grau))
+print(g_p.vertices_nao_adjacentes())
