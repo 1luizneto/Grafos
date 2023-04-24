@@ -215,10 +215,10 @@ class TestGrafo(unittest.TestCase):
         self.g_dijkstra.adiciona_vertice("B")
         self.g_dijkstra.adiciona_vertice("C")
         self.g_dijkstra.adiciona_vertice("D")
-        self.g_dijkstra.adiciona_aresta('1', 'A', 'B', 1)
-        self.g_dijkstra.adiciona_aresta('2', 'A', 'C', 1)
-        self.g_dijkstra.adiciona_aresta('3', 'B', 'D', 1)
-        self.g_dijkstra.adiciona_aresta('4', 'C', 'D', 2)
+        self.g_dijkstra.adiciona_aresta('l1', 'A', 'B', 1)
+        self.g_dijkstra.adiciona_aresta('l2', 'A', 'C', 1)
+        self.g_dijkstra.adiciona_aresta('l3', 'B', 'D', 1)
+        self.g_dijkstra.adiciona_aresta('l4', 'C', 'D', 2)
         # caminho mais leve tem mais arestas
         self.g_dijkstra2 = MeuGrafo()
         self.g_dijkstra2.adiciona_vertice('A')
@@ -228,15 +228,15 @@ class TestGrafo(unittest.TestCase):
         self.g_dijkstra2.adiciona_vertice('E')
         self.g_dijkstra2.adiciona_vertice('F')
         self.g_dijkstra2.adiciona_vertice('G')
-        self.g_dijkstra2.adiciona_aresta('1', 'A', 'B', 2)
-        self.g_dijkstra2.adiciona_aresta('2', 'B', 'C', 3)
-        self.g_dijkstra2.adiciona_aresta('3', 'A', 'D', 1)
-        self.g_dijkstra2.adiciona_aresta('4', 'D', 'C', 2)
-        self.g_dijkstra2.adiciona_aresta('9', 'A', 'C', 7)
-        self.g_dijkstra2.adiciona_aresta('5', 'C', 'E', 1)
-        self.g_dijkstra2.adiciona_aresta('6', 'E', 'G', 2)
-        self.g_dijkstra2.adiciona_aresta('7', 'G', 'F', 3)
-        self.g_dijkstra2.adiciona_aresta('8', 'C', 'F', 8)
+        self.g_dijkstra2.adiciona_aresta('l1', 'A', 'B', 2)
+        self.g_dijkstra2.adiciona_aresta('l2', 'B', 'C', 3)
+        self.g_dijkstra2.adiciona_aresta('l3', 'A', 'D', 1)
+        self.g_dijkstra2.adiciona_aresta('l4', 'D', 'C', 2)
+        self.g_dijkstra2.adiciona_aresta('l9', 'A', 'C', 7)
+        self.g_dijkstra2.adiciona_aresta('l5', 'C', 'E', 1)
+        self.g_dijkstra2.adiciona_aresta('l6', 'E', 'G', 2)
+        self.g_dijkstra2.adiciona_aresta('l7', 'G', 'F', 3)
+        self.g_dijkstra2.adiciona_aresta('l8', 'C', 'F', 8)
 
     def constroi_matriz(self, g: MeuGrafo):
         ordem = len(g._vertices)
@@ -381,13 +381,13 @@ class TestGrafo(unittest.TestCase):
         self.assertEqual(['M', 'a7', 'C'], self.g_p.dijkstra('M', 'C'))
 
         # dois caminhos possíveis, mesmo comprimento, pesos diferentes
-        self.assertEqual(['A', '1', 'B', '3', 'D'],
+        self.assertEqual(['A', 'l1', 'B', 'l3', 'D'],
                          self.g_dijkstra.dijkstra('A', 'D'))
         # três caminhos possíveis, os de menor peso têm mais arestas
-        self.assertEqual(['A', '3', 'D', '4', 'C'],
+        self.assertEqual(['A', 'l3', 'D', 'l4', 'C'],
                          self.g_dijkstra2.dijkstra('A', 'C'))
         # dois caminhos possíveis, o de menor peso tem mais arestas
-        self.assertEqual(['C', '5', 'E', '6', 'G', '7', 'F'],
+        self.assertEqual(['C', 'l5', 'E', 'l6', 'G', 'l7', 'F'],
                          self.g_dijkstra2.dijkstra('C', 'F'))
         self.assertEqual(None, self.g_dijkstra2.dijkstra('C', 'A'))
         self.assertEqual(None, self.g_dijkstra2.dijkstra('F', 'C'))
