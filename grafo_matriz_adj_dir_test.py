@@ -218,7 +218,25 @@ class TestGrafo(unittest.TestCase):
         self.g_dijkstra.adiciona_aresta('1', 'A', 'B', 1)
         self.g_dijkstra.adiciona_aresta('2', 'A', 'C', 1)
         self.g_dijkstra.adiciona_aresta('3', 'B', 'D', 1)
-        self.g_dijkstra.adiciona_aresta('2', 'C', 'D', 2)
+        self.g_dijkstra.adiciona_aresta('4', 'C', 'D', 2)
+        # caminho mais leve tem mais arestas
+        self.g_dijkstra2 = MeuGrafo()
+        self.g_dijkstra2.adiciona_vertice('A')
+        self.g_dijkstra2.adiciona_vertice('B')
+        self.g_dijkstra2.adiciona_vertice('C')
+        self.g_dijkstra2.adiciona_vertice('D')
+        self.g_dijkstra2.adiciona_vertice('E')
+        self.g_dijkstra2.adiciona_vertice('F')
+        self.g_dijkstra2.adiciona_vertice('G')
+        self.g_dijkstra2.adiciona_aresta('1', 'A', 'B', 2)
+        self.g_dijkstra2.adiciona_aresta('2', 'B', 'C', 3)
+        self.g_dijkstra2.adiciona_aresta('3', 'A', 'D', 1)
+        self.g_dijkstra2.adiciona_aresta('4', 'D', 'C', 2)
+        self.g_dijkstra2.adiciona_aresta('9', 'A', 'C', 7)
+        self.g_dijkstra2.adiciona_aresta('5', 'C', 'E', 1)
+        self.g_dijkstra2.adiciona_aresta('6', 'E', 'G', 2)
+        self.g_dijkstra2.adiciona_aresta('7', 'G', 'F', 3)
+        self.g_dijkstra2.adiciona_aresta('8', 'C', 'F', 8)
 
     def constroi_matriz(self, g: MeuGrafo):
         ordem = len(g._vertices)
@@ -353,4 +371,23 @@ class TestGrafo(unittest.TestCase):
         self.assertEqual(self.g_e.warshall(), self.g_e_m)
 
     def test_dijkstra(self):
-        pass
+        self.assertEqual(['J', 'a1', 'C'], self.g_p.dijkstra('J', 'C'))
+        self.assertEqual(None, self.g_p.dijkstra('C', 'J'))
+        self.assertTrue(self.g_p.dijkstra('J', 'E') in
+                        [['J', 'a1', 'C', 'a2', 'E'],
+                         ['J', 'a1', 'C', 'a3', 'E']])
+        self.assertEqual(None, self.g_p.dijkstra('E', 'C'))
+        # existem dois caminhos possíveis entre M e C
+        self.assertEqual(['M', 'a7', 'C'], self.g_p.dijkstra('M', 'C'))
+
+        # dois caminhos possíveis, mesmo comprimento, pesos diferentes
+        self.assertEqual(['A', '1', 'B', '3', 'D'],
+                         self.g_dijkstra.dijkstra('A', 'D'))
+        # três caminhos possíveis, os de menor peso têm mais arestas
+        self.assertEqual(['A', '3', 'D', '4', 'C'],
+                         self.g_dijkstra2.dijkstra('A', 'C'))
+        # dois caminhos possíveis, o de menor peso tem mais arestas
+        self.assertEqual(['C', '5', 'E', '6', 'G', '7', 'F'],
+                         self.g_dijkstra2.dijkstra('C', 'F'))
+        self.assertEqual(None, self.g_dijkstra2.dijkstra('C', 'A'))
+        self.assertEqual(None, self.g_dijkstra2.dijkstra('F', 'C'))
