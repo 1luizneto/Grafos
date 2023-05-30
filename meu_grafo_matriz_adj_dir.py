@@ -56,11 +56,26 @@ class MeuGrafo(GrafoMatrizAdjacenciaDirecionado):
         pass
 
     def warshall(self):
-        '''
-        Provê a matriz de alcançabilidade de Warshall do grafo
-        :return: Uma lista de listas que representa a matriz de alcançabilidade de Warshall associada ao grafo
-        '''
-        pass
+        # Criação da matriz E
+        E = []
+
+        # Verifica se existe uma aresta entre os vértices i e j na matriz
+        # Se existir, atribui o valor 1, caso contrário, atribui o valor 0
+        E = [[1 if len(self.matriz[i][j]) >= 1 else 0 for j in range(len(self.vertices))] for i in
+             range(len(self.vertices))]
+
+        # Algoritmo de Warshall
+        # Percorre a matriz E para atualizar os caminhos mínimos entre os vértices
+        for i in range(len(self.vertices)):
+            for j in range(len(self.vertices)):
+                if E[j][i] == 1:
+                    # Compara os valores de E[j][k] e E[i][k] para cada k
+                    # Atualiza E[j][k] com o maior valor entre os dois
+                    for k in range(len(self.vertices)):
+                        E[j][k] = max(E[j][k], E[i][k])
+
+        # Retorna a matriz E resultante após a aplicação do algoritmo de Warshall
+        return E
 
     def verticeInverso(self, aresta, V=''):
         # Retorne o rótulo do vértice oposto ao dado vértice na dada aresta

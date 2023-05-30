@@ -209,6 +209,190 @@ class TestGrafo(unittest.TestCase):
             self.g_e_m[3][i] = 1
             self.g_e_m[4][i] = 1
 
+            # grafos warshall
+            self.g_w1 = MeuGrafo()
+            self.g_w1.adiciona_vertice("A")
+            self.g_w1.adiciona_vertice("B")
+            self.g_w1.adiciona_vertice("C")
+            self.g_w1.adiciona_vertice("D")
+            self.g_w1.adiciona_aresta('a1', 'A', 'B')
+            self.g_w1.adiciona_aresta('a2', 'A', 'C')
+            self.g_w1.adiciona_aresta('a3', 'B', 'D')
+            self.g_w1.adiciona_aresta('a2', 'C', 'D')
+
+            self.g_w2 = MeuGrafo()
+            self.g_w2.adiciona_vertice('A')
+            self.g_w2.adiciona_vertice('B')
+            self.g_w2.adiciona_vertice('C')
+            self.g_w2.adiciona_vertice('D')
+            self.g_w2.adiciona_aresta('a1', 'A', 'B')
+            self.g_w2.adiciona_aresta('a2', 'A', 'C')
+            self.g_w2.adiciona_aresta('a3', 'B', 'D')
+            self.g_w2.adiciona_aresta('a4', 'C', 'D')
+            self.g_w2.adiciona_aresta('a5', 'A', 'D')
+            self.g_w2.adiciona_aresta('a6', 'C', 'B')
+
+            self.g_w3 = MeuGrafo()
+            self.g_w3.adiciona_vertice('A')
+            self.g_w3.adiciona_vertice('B')
+            self.g_w3.adiciona_vertice('C')
+            self.g_w3.adiciona_vertice('D')
+            self.g_w3.adiciona_vertice('E')
+            self.g_w3.adiciona_vertice('F')
+            self.g_w3.adiciona_aresta('a1', 'A', 'B')
+            self.g_w3.adiciona_aresta('a2', 'A', 'C')
+            self.g_w3.adiciona_aresta('a3', 'C', 'D')
+            self.g_w3.adiciona_aresta('a4', 'B', 'D')
+            self.g_w3.adiciona_aresta('a5', 'C', 'F')
+            self.g_w3.adiciona_aresta('a6', 'D', 'E')
+            self.g_w3.adiciona_aresta('a7', 'E', 'F')
+
+            self.g_w4 = MeuGrafo()
+            self.g_w4.adiciona_vertice("A")
+            self.g_w4.adiciona_vertice("B")
+            self.g_w4.adiciona_vertice("C")
+            self.g_w4.adiciona_vertice("D")
+            self.g_w4.adiciona_vertice("E")
+            self.g_w4.adiciona_vertice("F")
+            self.g_w4.adiciona_aresta('a1', 'A', 'B')
+            self.g_w4.adiciona_aresta('a2', 'B', 'C')
+            self.g_w4.adiciona_aresta('a3', 'C', 'B')
+            self.g_w4.adiciona_aresta('a4', 'B', 'D')
+            self.g_w4.adiciona_aresta('a5', 'D', 'C')
+            self.g_w4.adiciona_aresta('a6', 'B', 'F')
+            self.g_w4.adiciona_aresta('a7', 'B', 'E')
+            self.g_w4.adiciona_aresta('a8', 'E', 'F')
+
+            # Matrizes para teste do algoritmo de Warshall
+
+            self.g_w1_m = self.constroi_matriz(self.g_w1)
+            self.g_w1_m[0][0] = 0
+            self.g_w1_m[0][1] = 1
+            self.g_w1_m[0][2] = 1
+            self.g_w1_m[0][3] = 1
+
+            self.g_w1_m[1][0] = 0
+            self.g_w1_m[1][1] = 0
+            self.g_w1_m[1][2] = 0
+            self.g_w1_m[1][3] = 1
+
+            self.g_w1_m[2][0] = 0
+            self.g_w1_m[2][1] = 0
+            self.g_w1_m[2][2] = 0
+            self.g_w1_m[2][3] = 1
+
+            self.g_w1_m[3][0] = 0
+            self.g_w1_m[3][1] = 0
+            self.g_w1_m[3][2] = 0
+            self.g_w1_m[3][3] = 0
+
+            self.g_w2_m = self.constroi_matriz(self.g_w2)
+            self.g_w2_m[0][0] = 0
+            self.g_w2_m[0][1] = 1
+            self.g_w2_m[0][2] = 1
+            self.g_w2_m[0][3] = 1
+
+            self.g_w2_m[1][0] = 0
+            self.g_w2_m[1][1] = 0
+            self.g_w2_m[1][2] = 0
+            self.g_w2_m[1][3] = 1
+
+            self.g_w2_m[2][0] = 0
+            self.g_w2_m[2][1] = 1
+            self.g_w2_m[2][2] = 0
+            self.g_w2_m[2][3] = 1
+
+            self.g_w2_m[3][0] = 0
+            self.g_w2_m[3][1] = 0
+            self.g_w2_m[3][2] = 0
+            self.g_w2_m[3][3] = 0
+
+            self.g_w3_m = self.constroi_matriz(self.g_w3)
+            self.g_w3_m[0][0] = 0
+            self.g_w3_m[0][1] = 1
+            self.g_w3_m[0][2] = 1
+            self.g_w3_m[0][3] = 1
+            self.g_w3_m[0][4] = 1
+            self.g_w3_m[0][5] = 1
+
+            self.g_w3_m[1][0] = 0
+            self.g_w3_m[1][1] = 0
+            self.g_w3_m[1][2] = 0
+            self.g_w3_m[1][3] = 1
+            self.g_w3_m[1][4] = 1
+            self.g_w3_m[1][5] = 1
+
+            self.g_w3_m[2][0] = 0
+            self.g_w3_m[2][1] = 0
+            self.g_w3_m[2][2] = 0
+            self.g_w3_m[2][3] = 1
+            self.g_w3_m[2][4] = 1
+            self.g_w3_m[2][5] = 1
+
+            self.g_w3_m[3][0] = 0
+            self.g_w3_m[3][1] = 0
+            self.g_w3_m[3][2] = 0
+            self.g_w3_m[3][3] = 0
+            self.g_w3_m[3][4] = 1
+            self.g_w3_m[3][5] = 1
+
+            self.g_w3_m[4][0] = 0
+            self.g_w3_m[4][1] = 0
+            self.g_w3_m[4][2] = 0
+            self.g_w3_m[4][3] = 0
+            self.g_w3_m[4][4] = 0
+            self.g_w3_m[4][5] = 1
+
+            self.g_w3_m[5][0] = 0
+            self.g_w3_m[5][1] = 0
+            self.g_w3_m[5][2] = 0
+            self.g_w3_m[5][3] = 0
+            self.g_w3_m[5][4] = 0
+            self.g_w3_m[5][5] = 0
+
+            self.g_w4_m = self.constroi_matriz(self.g_w4)
+            self.g_w4_m[0][0] = 0
+            self.g_w4_m[0][1] = 1
+            self.g_w4_m[0][2] = 1
+            self.g_w4_m[0][3] = 1
+            self.g_w4_m[0][4] = 1
+            self.g_w4_m[0][5] = 1
+
+            self.g_w4_m[1][0] = 0
+            self.g_w4_m[1][1] = 1
+            self.g_w4_m[1][2] = 1
+            self.g_w4_m[1][3] = 1
+            self.g_w4_m[1][4] = 1
+            self.g_w4_m[1][5] = 1
+
+            self.g_w4_m[2][0] = 0
+            self.g_w4_m[2][1] = 1
+            self.g_w4_m[2][2] = 1
+            self.g_w4_m[2][3] = 1
+            self.g_w4_m[2][4] = 1
+            self.g_w4_m[2][5] = 1
+
+            self.g_w4_m[3][0] = 0
+            self.g_w4_m[3][1] = 1
+            self.g_w4_m[3][2] = 1
+            self.g_w4_m[3][3] = 1
+            self.g_w4_m[3][4] = 1
+            self.g_w4_m[3][5] = 1
+
+            self.g_w4_m[4][0] = 0
+            self.g_w4_m[4][1] = 0
+            self.g_w4_m[4][2] = 0
+            self.g_w4_m[4][3] = 0
+            self.g_w4_m[4][4] = 0
+            self.g_w4_m[4][5] = 1
+
+            self.g_w4_m[5][0] = 0
+            self.g_w4_m[5][1] = 0
+            self.g_w4_m[5][2] = 0
+            self.g_w4_m[5][3] = 0
+            self.g_w4_m[5][4] = 0
+            self.g_w4_m[5][5] = 0
+
         # Grafos desconexos
         self.g_dijkstra = MeuGrafo()
         self.g_dijkstra.adiciona_vertice("A")
@@ -369,6 +553,10 @@ class TestGrafo(unittest.TestCase):
     def test_warshall(self):
         self.assertEqual(self.g_p.warshall(), self.g_p_m)
         self.assertEqual(self.g_e.warshall(), self.g_e_m)
+        self.assertEqual(self.g_w1.warshall(), self.g_w1_m)
+        self.assertEqual(self.g_w2.warshall(), self.g_w2_m)
+        self.assertEqual(self.g_w3.warshall(), self.g_w3_m)
+        self.assertEqual(self.g_w4.warshall(), self.g_w4_m)
 
     def test_dijkstra(self):
         self.assertEqual(['J', 'a1', 'C'], self.g_p.dijkstra('J', 'C'))
