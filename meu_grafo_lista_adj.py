@@ -193,7 +193,7 @@ class MeuGrafo(GrafoListaAdjacencia):
         # Retorna a árvore DFS
         return arvoreDFS
 
-    def vertice_inverso(self, aresta, V=''):
+    def verticeInverso(self, aresta, V=''):
         """
         Retorna o rótulo do vértice oposto ao vértice V na aresta passada como parâmetro.
         Se V for igual a um dos vértices da aresta, o rótulo do outro vértice é retornado.
@@ -231,7 +231,7 @@ class MeuGrafo(GrafoListaAdjacencia):
 
             # para cada aresta incidente, verifica se o vértice oposto já foi visitado
             for aresta in arestas_incidentes:
-                oposto = self.vertice_inverso(self.arestas[aresta], v_atual)
+                oposto = self.verticeInverso(self.arestas[aresta], v_atual)
                 if oposto not in visitados:
                     # adiciona o vértice oposto na árvore BFS e adiciona a aresta à árvore
                     arvoreBFS.adiciona_vertice(oposto)
@@ -241,3 +241,131 @@ class MeuGrafo(GrafoListaAdjacencia):
                     verticesQueFaltam.append(oposto)
 
         return arvoreBFS
+
+    def primModificado(self):
+
+        arvorePrim = MeuGrafo()
+        # Seleciona o vértice inicial com menor peso
+        verticeIncial = self.arestas[self.menorPeso(self.arestas)].v1.rotulo
+
+        # Adiciona o vértice inicial à árvore
+        arvorePrim.adiciona_vertice(verticeIncial)
+
+        # Conjunto de arestas visitadas
+        ares_vis = set()
+
+        # Enquanto a árvore não contiver todos os vértices
+        while len(arvorePrim.vertices) < len(self.vertices):
+            # Conjunto de arestas adjacentes à árvore
+            ares_adj = set()
+
+            # Para cada vértice na árvore
+            for vertice in arvorePrim.vertices:
+                # Para cada aresta incidente no vértice
+                for rotuloVertice in self.arestas_sobre_vertice(vertice.rotulo):
+                    # Se a aresta não foi visitada e não está na árvore
+                    if not arvorePrim.existe_rotulo_aresta(rotuloVertice) and rotuloVertice not in ares_vis:
+                        # Adiciona a aresta ao conjunto de arestas adjacentes
+                        ares_adj.add(rotuloVertice)
+
+            # Seleciona a aresta de menor peso dentre as adjacentes
+            arestaMenorPeso = self.menorPeso(ares_adj)
+            # Adiciona a aresta visitada ao conjunto de arestas visitadas
+            ares_vis.add(arestaMenorPeso)
+
+            # Obtém o vértice oposto à árvore nessa aresta
+            rotuloVertice = self.vertOposto(arvorePrim.vertices, arestaMenorPeso)
+            # Se o vértice não está na árvore
+            if not arvorePrim.existe_rotulo_vertice(rotuloVertice):
+                # Adiciona o vértice e a aresta à árvore
+                arvorePrim.adiciona_vertice(rotuloVertice)
+                arvorePrim.adiciona_aresta(self._arestas[arestaMenorPeso])
+        
+        return arvorePrim
+
+    def vertOposto(self, vert, rotuloVertice):
+        # Para cada vértice na lista de vértices
+        for vertice in vert:
+            # Se o rótulo do vértice corresponde à origem da aresta
+            if vertice.rotulo == self._arestas[rotuloVertice].v1.rotulo:
+                # Obtém o rótulo do vértice de destino da aresta
+                rotuloVertice = self._arestas[rotuloVertice].v2.rotulo
+                return rotuloVertice
+            # Se o rótulo do vértice corresponde ao destino da aresta
+            elif vertice.rotulo == self._arestas[rotuloVertice].v2.rotulo:
+                # Obtém o rótulo do vértice de origem da aresta
+                rotuloVertice = self._arestas[rotuloVertice].v1.rotulo
+                return rotuloVertice
+
+    def menorPeso(self, arestas_adj):
+        # Inicializa a variável 'menor' com infinito positivo
+        menor = float('inf')
+
+        # Para cada aresta nas arestas adjacentes
+        for a in arestas_adj:
+            # Se o peso da aresta atual é menor ou igual ao menor peso encontrado até agora
+            if self.arestas[a].peso <= menor:
+                # Se o peso da aresta atual é igual ao menor peso encontrado até agora
+                if self.arestas[a].peso == menor:
+                    # Se o rótulo da aresta atual é menor que o rótulo da aresta retornada anteriormente
+                    if self.arestas[a].rotulo < self.arestas[arestaMenor].rotulo:
+                        # Atualiza o menor peso com o peso da aresta atual
+                        menor = self.arestas[a].peso
+                        # Atualiza a aresta retornada com a aresta atual
+                        arestaMenor = a
+                else:
+                    # Atualiza o menor peso com o peso da aresta atual
+                    menor = self.arestas[a].peso
+                    # Atualiza a aresta retornada com a aresta atual
+                    arestaMenor = a
+
+        return arestaMenor
+
+    def filaDePrioridade(self):
+        listaPesos = []
+
+        # Obtém os pesos únicos das arestas
+        # Para cada aresta no grafo
+        for a in self.arestas:
+            # Se a aresta de menor peso não esta na lista
+            if not self.arestas[a].peso in listaPesos:
+                # Adciona a aresta de menor peso na lista
+                listaPesos.append(self.arestas[a].peso)
+
+        # Ordena a lista de pesos em ordem crescente
+        listaPesos.sort()
+        fila = list()
+        # Para cada i em relação a lista de pesos
+        for i in range(len(listaPesos)):
+            fila.append([])
+            # Adiciona as arestas ao fila correspondente ao seu peso
+            for a in self.arestas:
+                # se a aresta escolhida for igual a que já tiver na lista
+                if self.arestas[a].peso == listaPesos[i]:
+                    # Adciona na lista
+                    fila[i].append(a)
+        return fila
+
+    def kruskallModificado(self):
+        arvoreKruskall = MeuGrafo()
+        fila = self.filaDePrioridade()
+
+        # Adiciona todos os vértices do grafo original na árvore de Kruskal
+        for v in self.vertices:
+            arvoreKruskall.adiciona_vertice(v.rotulo)
+
+        # Itera sobre a fila de arestas ordenadas por peso
+        for i in range(len(fila)):
+            # Para toda indice i da fila
+            for a in fila[i]:
+                aresta = self.arestas[a]
+                kruskallDfs = arvoreKruskall.dfs()
+
+                # Se não forma ciclo, adiciona a aresta na árvore de Kruskal
+                if kruskallDfs.existe_rotulo_vertice(aresta.v1.rotulo) and kruskallDfs.existe_rotulo_vertice(
+                        aresta.v2.rotulo):
+                    pass
+                else:
+                    arvoreKruskall.adiciona_aresta(aresta)
+
+        return arvoreKruskall
