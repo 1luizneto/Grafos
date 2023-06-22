@@ -110,7 +110,7 @@ class MeuGrafo(GrafoMatrizAdjacenciaDirecionado):
         pesoMinimo = {}
         verticeAnterior = {}
 
-        infinito = 9999999999999999
+        infinito = float('inf')
 
         for v in self.vertices:
             verticesVisitados[v.rotulo] = False
@@ -153,3 +153,34 @@ class MeuGrafo(GrafoMatrizAdjacenciaDirecionado):
             caminho = verticeAnterior[verciteAtual] + caminho
             verciteAtual = verticeAnterior[verciteAtual][0]
         return caminho
+
+    def khan(self):
+        grafo = deepcopy(self)
+        lista_top = []
+        fontes = [vertice.rotulo for vertice in grafo.vertices if grafo.ehFonte(vertice)]
+
+        while fontes:
+            vertice_fonte = fontes.pop(0)
+            lista_top.append(vertice_fonte)
+
+            indice_vertice_fonte = grafo.vertices.index(grafo.get_vertice(vertice_fonte))
+
+            for j in range(len(grafo.vertices)):
+                matriz_vertice = grafo.matriz[indice_vertice_fonte][j]
+                if matriz_vertice:
+                    matriz_vertice.clear()
+                    grafo.matriz[j][indice_vertice_fonte].clear()
+
+            for i, vertice in enumerate(grafo.vertices):
+                if grafo.ehFonte(vertice) and vertice.rotulo not in lista_top and vertice.rotulo not in fontes:
+                    fontes.append(vertice.rotulo)
+
+        print(lista_top)
+        return lista_top
+
+    def ehFonte(self, v=""):
+        index = self.vertices.index(v)
+        for i in range(len(self.vertices)):
+            if any(self.matriz[i][index]):
+                return False
+        return True
